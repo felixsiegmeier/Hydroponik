@@ -7,9 +7,13 @@ import _thread
 # Pins definieren
 temp_pin = Pin(19)
 
-# regelmäßige Messwerte
-temp_tank = 0
-temp_rohr = 0
+
+''' 
+Verwendete Variablen
+
+temp_tank
+temp_rohr
+'''
 
 def get_temp(): # Temperaturen auslesen -> ermittelt alle 1 Minute die Temperaturen
     ds_sensor = ds18x20.DS18X20(onewire.OneWire(temp_pin))
