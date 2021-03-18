@@ -32,7 +32,7 @@ def get_temp(): # Temperaturen auslesen -> ermittelt alle 1 Minute die Temperatu
 # user data
 ssid = "WLAN-589392" # wifi router name
 pw = "1223qwwe" # wifi router password
-url = "http://worldtimeapi.org/api/timezone/Europe/Berlin # see http://worldtimeapi.org/timezones
+url = "http://worldtimeapi.org/api/timezone/Europe/Berlin" # see http://worldtimeapi.org/timezones
 web_query_delay = 60000 # interval time of web JSON query
 retry_delay = 5000 # interval time of retry after a failed Web query
 
