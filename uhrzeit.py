@@ -59,7 +59,7 @@ def uhrzeitloop(): # ermittelt die Uhrzeit, muss in die Endlosschleife
     
         if response.status_code == 200: # query success
         
-            print("JSON response:\n", response.text)
+            #print("JSON response:\n", response.text)
             
             # parse JSON
             global parse
@@ -83,7 +83,7 @@ def uhrzeitloop(): # ermittelt die Uhrzeit, muss in die Endlosschleife
             # update internal RTC
             rtc.datetime((year, month, day, 0, hour, minute, second, subsecond))
             update_time = utime.ticks_ms()
-            print("RTC updated\n")
+            #print("RTC updated\n")
    
         else: # query failed, retry retry_delay ms later
             update_time = utime.ticks_ms() - web_query_delay + retry_delay
