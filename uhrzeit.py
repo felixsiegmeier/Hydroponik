@@ -12,49 +12,49 @@ pw = "1223qwwe" # wifi router password
 url = "http://worldtimeapi.org/api/timezone/Europe/Berlin" # see http://worldtimeapi.org/timezones
 web_query_delay = 60000 # interval time of web JSON query
 retry_delay = 5000 # interval time of retry after a failed Web query
-
+update_time = 0
 # initialization
 
 # SSD1306 OLED display
-print("Connecting to wifi...")
 oled = SSD1306_I2C(128, 64, I2C(scl=Pin(22), sda=Pin(21)))
-oled.fill(0)
-oled.text("Connecting", 0, 5)
-oled.text(" to wifi...", 0, 15)
-oled.show()
+
 
 # internal real time clock
 rtc = RTC()
 
-# wifi connection
-wifi = network.WLAN(network.STA_IF) # station mode
-wifi.active(True)
-wifi.connect(ssid, pw)
+def wificonnect(): # etabliert die wifi-Verbindung, muss einmalig ausgeführt werden
+    # wifi connection
+    print("Connecting to wifi...")
+    global wifi
+    wifi = network.WLAN(network.STA_IF) # station mode
+    wifi.active(True)
+    wifi.connect(ssid, pw)
 
-# wait for connection
-while not wifi.isconnected():
-    pass
+    # wait for connection
+    while not wifi.isconnected():
+        pass
 
-# wifi connected
-print("IP:", wifi.ifconfig()[0], "\n")
-oled.text("Connected. IP: ", 0, 35)
-oled.text(" " + str(wifi.ifconfig()[0]), 0, 45)
-oled.show()
+    # wifi connected
+    print("IP:", wifi.ifconfig()[0], "\n")
 
-# set timer
-update_time = utime.ticks_ms() - web_query_delay
+
+    # set timer
+    global update_time
+    update_time = utime.ticks_ms() - web_query_delay
 
 # main loop
-while True:
+def uhrzeitloop(): # ermittelt die Uhrzeit, muss in die Endlosschleife
     
     # if lose wifi connection, reboot ESP8266
     if not wifi.isconnected():
         machine.reset()
     
     # query and get web JSON every web_query_delay ms
+    global update_time
     if utime.ticks_ms() - update_time >= web_query_delay:
     
         # HTTP GET data
+        global response
         response = urequests.get(url)
     
         if response.status_code == 200: # query success
@@ -62,8 +62,16 @@ while True:
             print("JSON response:\n", response.text)
             
             # parse JSON
+            global parse
             parsed = response.json()
             datetime_str = str(parsed["datetime"])
+            global year
+            global month
+            global day
+            global hour
+            global minute
+            global second
+            global subsecond
             year = int(datetime_str[0:4])
             month = int(datetime_str[5:7])
             day = int(datetime_str[8:10])
@@ -81,9 +89,12 @@ while True:
             update_time = utime.ticks_ms() - web_query_delay + retry_delay
     
     # generate formated date/time strings from internal RTC
+    global date_str
+    global time_str
     date_str = "Date: {1:02d}/{2:02d}/{0:4d}".format(*rtc.datetime())
     time_str = "Time: {4:02d}:{5:02d}:{6:02d}".format(*rtc.datetime())
 
+def showoled(): # schreibt Datum und Uhrzeit aufs Oled, muss in die Endlosschleife bzw. immer, wenn uhrzeitloop eine neue Zeit ermittelt hat
     # update SSD1306 OLED display
     oled.fill(0)
     oled.text("Aktuelle Uhrzeit: ", 0, 5)
