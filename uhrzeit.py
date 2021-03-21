@@ -7,8 +7,8 @@ from ssd1306 import SSD1306_I2C
 
 
 # user data
-ssid = "WLAN-589392" # wifi router name
-pw = "1223qwwe" # wifi router password
+ssid = "XXXX" # wifi router name
+pw = "XXXX" # wifi router password
 url = "http://worldtimeapi.org/api/timezone/Europe/Berlin" # see http://worldtimeapi.org/timezones
 web_query_delay = 60000 # interval time of web JSON query
 retry_delay = 5000 # interval time of retry after a failed Web query
