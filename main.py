@@ -22,7 +22,7 @@ licht_status = 0 #aus, 8h, 10h, 12h, 14h, 16h, 18h => nimmt 0 - 6 an
 oled_func = [oled_off, uhrzeit.showoled, temp_showoled, ec_showoled, licht_showoled] #weil python kein switch case hat "switche" ich durch Funktionen in einer Liste
 
 #Funktionen
-def oled_button(arg): #interripthandler für den oled_button = button1; ändert den oled_status
+def oled_button(arg): #interrupthandler für den oled_button = button1; ändert den oled_status
     button_pressed = time.time()
     global oled_status
     if oled_status < 4:
@@ -33,6 +33,7 @@ def oled_button(arg): #interripthandler für den oled_button = button1; ändert 
 def oled_show(): # aktualisiert das Display anhand von oled_status => LOOP
     global oled_status
     global oled_func
+    global button_pressed
     if time.time() - button_pressed > 180:
         oled_status = 0
     oled_func[oled_status]()
@@ -41,7 +42,7 @@ def temp_showoled(): #wird benötigt, da in die Liste oled_func keine Parameter 
     global temp_pin
     temp.showoled(temp_pin)
 
-def licht_button(arg): #interripthandler für den licht_button = button2 ; ändert den licht_status
+def licht_button(arg): #interrupthandler für den licht_button = button2 ; ändert den licht_status
     button_pressed = time.time()
     global oled_status
     if oled_status != 4:
@@ -71,7 +72,7 @@ def licht_showoled(): #NICHT GETESTET
         oled.text("Beleuchtung aus", 0, 40)
     oled.show()
     
-def oled_off():
+def oled_off(): #NICHT GETESTET
     oled.fill(0)
 
 button1_pin.irq(trigger=Pin.IRQ_RISING, handler=oled_button) #Interrupt oled_button
@@ -80,5 +81,5 @@ button2_pin.irq(trigger=Pin.IRQ_RISING, handler=licht_button) # Interrupt licht_
 while True:
     uhrzeit.uhrzeitloop()
     temp.get_temp(temp_pin)
-    licht_controller(licht_status)
+    licht_controller()
     oled_show()
