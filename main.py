@@ -7,6 +7,7 @@ from ssd1306 import SSD1306_I2C
 import temperatursensoren as temp
 
 uhrzeit.wificonnect() #Wifi wird für die Zeitabfrage benötigt
+oled = SSD1306_I2C(128, 64, I2C(scl=Pin(22), sda=Pin(21)))
 
 #Pins definieren
 temp_pin = Pin(19, Pin.IN) #über oneWire für beide Sensoren
@@ -58,6 +59,16 @@ def licht_controller(licht_status): # sorgt für das Licht anhand von licht_stat
         licht_pin.high()
     else:
         licht_pin.low()
+
+def licht_showoled():
+    oled.fill(0)
+    if licht_status != 0:
+        oled.text("Lichtstunden: "+str(6+2*licht_status),0,5)
+        oled.text("5:00 Uhr bis",0,25)
+        oled.text(str(11+2*licht_status)+":00 Uhr",0,45)
+    else:
+        oled.text("Beleuchtung aus", 0, 40)
+    oled.show()
 
 button1_pin.irq(trigger=Pin.IRQ_RISING, handler=oled_button) #Interrupt oled_button
 button2_pin.irq(trigger=Pin.IRQ_RISING, handler=licht_button) # Interrupt licht_button
