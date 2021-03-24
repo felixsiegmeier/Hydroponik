@@ -55,12 +55,12 @@ def licht_button(arg): #interripthandler für den licht_button = button2 ; ände
 def licht_controller(licht_status): # sorgt für das Licht anhand von licht_status => LOOP
     global licht_pin
     global uhrzeit.hour
-    if (licht_status > 0) and (uhrzeit.hour > 4) and (uhrzeit.hour < (11+2*licht_status)):
+    if (licht_status > 0) and (uhrzeit.hour > 4) and (uhrzeit.hour < (11+2*licht_status)): #FUNKTIONIERT NOCH NICHT
         licht_pin.high()
     else:
         licht_pin.low()
 
-def licht_showoled():
+def licht_showoled(): #NICHT GETESTET
     oled.fill(0)
     if licht_status != 0:
         oled.text("Lichtstunden: "+str(6+2*licht_status),0,5)
