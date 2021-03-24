@@ -52,7 +52,8 @@ def licht_button(arg): #interripthandler für den licht_button = button2 ; ände
     else:
         licht_status = 0
 
-def licht_controller(licht_status): # sorgt für das Licht anhand von licht_status => LOOP
+def licht_controller(): # sorgt für das Licht anhand von licht_status => LOOP
+    global licht_status
     global licht_pin
     global uhrzeit.hour
     if (licht_status > 0) and (uhrzeit.hour > 4) and (uhrzeit.hour < (11+2*licht_status)): #FUNKTIONIERT NOCH NICHT
@@ -69,6 +70,9 @@ def licht_showoled(): #NICHT GETESTET
     else:
         oled.text("Beleuchtung aus", 0, 40)
     oled.show()
+    
+def oled_off():
+    oled.fill(0)
 
 button1_pin.irq(trigger=Pin.IRQ_RISING, handler=oled_button) #Interrupt oled_button
 button2_pin.irq(trigger=Pin.IRQ_RISING, handler=licht_button) # Interrupt licht_button
