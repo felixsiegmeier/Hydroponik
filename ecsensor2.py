@@ -35,8 +35,3 @@ class ecsensor():
 
 ec = ecsensor(2000,3.3,1,25,26,34)
 print(str(ec.getec(19))+" "+str(ec.raw)) 
-
-''' Hier wird bei einem Kurzschluss über den Messfühler (also über den Stecker) der MessPin auf GND gezogen = es wird 0 gemessen.
-wenn der Fühler nichts leitet ist der Widerstand unendlich, der MessPin wird durch den eCPOwer auf high gezogen und misst 4095.
-
-Damit ist der Messwert imgekehrt proportional zum Widerstand?! '''
