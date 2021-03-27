@@ -23,6 +23,11 @@ class ecsensor():
 
     def measureEC(self):
         raw = self.ECData.read()
-        Vdrop = self.voltage*raw/self.range
+        Vdrop = self.voltage*self.raw/self.range
+        Resistance = (Vdrop * self.Resistor) / (self.voltage - Vdrop)
+        Resistance = Resistance - self.Rc
+        Resistance25 = Resistance/(1+(0.019*(self.Temp-25)))
+
+
 
 
