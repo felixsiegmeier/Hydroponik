@@ -1,21 +1,22 @@
 from machine import Pin, I2C
-import utime, machine, onewire, time, ds18x20, _thread
+import onewire, ds18x20
 from ssd1306 import SSD1306_I2C
 
-oled = SSD1306_I2C(128, 64, I2C(scl=Pin(22), sda=Pin(21)))
+class TempSensor:
+    def __init__(self, temp_pin, scl_pin, sda_pin):
+        self.oled = SSD1306_I2C(128, 64, I2C(scl=Pin(scl_pin), sda=Pin(sda_pin)))
+        self.ds_sensor = ds18x20.DS18X20(onewire.OneWire(Pin(temp_pin, Pin.IN)))
+        self.roms = self.ds_sensor.scan()
+        print("Folgende Sensoren wurden gefunden: "+str(self.roms))
+        self.ds_sensor.convert_temp()
+    
+    def get_temp(self, rom):
+        temp = self.ds_sensor.read_temp(self.roms[rom-1])
+        return(temp)
 
-def gettemp(temp_pin, rom): # Temperaturen auslesen, rom 1 oder 2 für die beiden Sensoren
-    ds_sensor = ds18x20.DS18X20(onewire.OneWire(temp_pin))
-    delay = 5
-    roms = ds_sensor.scan()
-    ds_sensor.convert_temp()
-    temp = ds_sensor.read_temp(roms[rom-1])
-    return temp
-
-def showoled(temp_pin):
-    oled.fill(0)
-    oled.text("Temperaturen: ", 0, 5)
-    oled.text("Tank: " + str(round(gettemp(temp_pin, 1),1))+" C", 0, 25)
-   # oled.text(str(round(gettemp(temp_pin, 1),1)), 45, 25)
-    oled.text("Rohr: " + str(round(gettemp(temp_pin, 2),1))+" C", 0, 45)
-    oled.show()
+    def show_temp(self):
+        self.oled.fill(0)
+        self.oled.text("Temperaturen: ", 0, 5)
+        self.oled.text("Tank: " + str(round(self.get_temp(1),1))+" C", 0, 25)
+        self.oled.text("Rohr: " + str(round(self.get_temp(2),1))+" C", 0, 45)
+        self.oled.show()
