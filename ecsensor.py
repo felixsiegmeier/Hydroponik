@@ -26,7 +26,7 @@ class EcSensor():
         resistance = resistance - self.pin_resistance
         ec_value = 1000/(resistance*self.konst)
         ec_value_25 = 1000*ec_value/(1+0.019*(temp-25.0))
-        return(resistance, ec_value_25)
+        return(ec_value_25)
     
     def get_konst(self, temp, ec_bekannt):
         buffer = 0
@@ -46,8 +46,3 @@ class EcSensor():
         konst = 1000/(resistance*ec_no_temp) # eventuell muss hier 1/ statt 1000/ hin, weil ich mit µS/cm und nicht mit S/cm rechte... probieren
         print("Die Sensorkonstante",str(konst),"wurde gespeichert")
         self.konst = konst
-
-ec = EcSensor(26,34,2000,"ESP32",10000,0)
-print(ec.ec_measure(19))
-
-
