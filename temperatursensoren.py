@@ -7,7 +7,11 @@ class TempSensor:
         self.oled = SSD1306_I2C(128, 64, I2C(scl=Pin(scl_pin), sda=Pin(sda_pin)))
         self.ds_sensor = ds18x20.DS18X20(onewire.OneWire(Pin(temp_pin, Pin.IN)))
         self.roms = self.ds_sensor.scan()
-        print("Folgende Sensoren wurden gefunden: "+str(self.roms))
+        print("Folgende Sensoren wurden gefunden:")
+        count = 1
+        for n in self.roms:
+            print(str(count)+": "+str(n))
+            count += 1
         self.ds_sensor.convert_temp()
     
     def get_temp(self, rom):
