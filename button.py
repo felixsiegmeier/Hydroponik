@@ -1,9 +1,7 @@
 #Interrupt-Handler
-''' Funktion, in die Pin und Range der Modi eingetragen werden => 4 bedeutet, dass von 0 bis 3 durchgewechselt wird
-    Init ruft den Interrupthandler selbst auf für den Pin und mit der gewünschten Funktion auf dem Pin
-    toggle beschreibt, ob es push oder release ist
-    mode beschreibt, ob der Button PULLUP oder PULLDOWN sein soll'''
-
+# übergeben werden Pin und Zahl, bis  zu der gezählt wird
+''' button = Button(17,5) erzeugt einen PULL_DOWN-Button auf Pin 17 mit Aktivierung auf Druck, 
+der von 0 bis 5 aufwärts zählt und dann wieder bei 0 beginnt '''
 from machine import Pin
 
 class Button():
