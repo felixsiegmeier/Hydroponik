@@ -15,7 +15,7 @@ class EcSensor():
         self.pin_resistance = 25 #Eingangswiderstand des Microkontrollers
         self.range = analog_range #4095 für ESP32, 1023 für ESP8266
 
-    def ec_measure(self,temp):
+    def get_ec(self,temp):
         self.ec_power.value(1)
         raw = self.ec_data.read()
         raw = self.ec_data.read()
@@ -46,6 +46,3 @@ class EcSensor():
         konst = 1000/(resistance*ec_no_temp) # eventuell muss hier 1/ statt 1000/ hin, weil ich mit µS/cm und nicht mit S/cm rechte... probieren
         print("Die Sensorkonstante",str(konst),"wurde gespeichert")
         self.konst = konst
-
-    def show(self):
-        pass
