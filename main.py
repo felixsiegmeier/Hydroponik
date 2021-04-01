@@ -1,33 +1,28 @@
 from machine import Pin, I2C, RTC
-import time, network, utime, machine, urequests
-import onewire, uhrzeit
-import ds18x20
-import _thread
+import time, network, utime, machine, urequests, onewire, ds18x20, _thread
 from ssd1306 import SSD1306_I2C
-import temperatursensoren as temp
+import uhrzeit, temperatursensoren, button, ecsensor
 
 uhrzeit.wificonnect() #Wifi wird für die Zeitabfrage benötigt
 oled = SSD1306_I2C(128, 64, I2C(scl=Pin(22), sda=Pin(21)))
 
+oled_options = ["off", temp.show, ec.show, uhrzeit.show, licht.show_licht]
+oled_button = button.Button(17, len(oled_options)-1)
+licht_button = button.Button(33, 6)
+
+
+
+
+
+
+
+
+
 #Pins definieren
 temp_pin = Pin(19, Pin.IN) #über oneWire für beide Sensoren
-button1_pin = Pin(17, Pin.IN, Pin.PULL_DOWN) #oled
-button2_pin = Pin(33, Pin.IN, Pin.PULL_DOWN) #licht
+
 licht_pin = Pin(32, Pin.OUT) #zum MOSFET für die Beleuchtung
 
-#Varible
-button_pressed = time.time() #oled_show setzt den Wert von oled_status auf 0, wenn 3 min kein Button gedrückt wurde, dies ist der 3-Minuten-Timer
-oled_status = 1 #aus, time, temp, EC, Licht => nimmt 0 - 4 an
-licht_status = 0 #aus, 8h, 10h, 12h, 14h, 16h, 18h => nimmt 0 - 6 an
-
-#Funktionen
-def oled_button(arg): #interrupthandler für den oled_button = button1; ändert den oled_status
-    button_pressed = time.time()
-    global oled_status
-    if oled_status < 4:
-        oled_status += 1
-    else:
-        oled_status = 0
 
 def oled_show(): # aktualisiert das Display anhand von oled_status => LOOP
     global oled_status
@@ -80,7 +75,6 @@ def ec_showoled():
 
 button1_pin.irq(trigger=Pin.IRQ_RISING, handler=oled_button) #Interrupt oled_button
 button2_pin.irq(trigger=Pin.IRQ_RISING, handler=licht_button) # Interrupt licht_button
-oled_func = [oled_off, uhrzeit.showoled, temp_showoled, ec_showoled, licht_showoled] #weil python kein switch case hat "switche" ich durch Funktionen in einer Liste
 
 while True:
     uhrzeit.uhrzeitloop()

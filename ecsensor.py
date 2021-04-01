@@ -46,3 +46,6 @@ class EcSensor():
         konst = 1000/(resistance*ec_no_temp) # eventuell muss hier 1/ statt 1000/ hin, weil ich mit µS/cm und nicht mit S/cm rechte... probieren
         print("Die Sensorkonstante",str(konst),"wurde gespeichert")
         self.konst = konst
+
+    def show(self):
+        pass

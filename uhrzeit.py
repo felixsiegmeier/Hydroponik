@@ -94,12 +94,27 @@ def uhrzeitloop(): # ermittelt die Uhrzeit, muss in die Endlosschleife
     date_str = "Date: {1:02d}/{2:02d}/{0:4d}".format(*rtc.datetime())
     time_str = "Time: {4:02d}:{5:02d}:{6:02d}".format(*rtc.datetime())
 
-def showoled(): # schreibt Datum und Uhrzeit aufs Oled, muss in die Endlosschleife bzw. immer, wenn uhrzeitloop eine neue Zeit ermittelt hat
+def show(): # schreibt Datum und Uhrzeit aufs Oled, muss in die Endlosschleife bzw. immer, wenn uhrzeitloop eine neue Zeit ermittelt hat
     # update SSD1306 OLED display
     oled.fill(0)
     oled.text("Aktuelle Uhrzeit: ", 0, 5)
     oled.text(date_str, 0, 25)
     oled.text(time_str, 0, 45)
     oled.show()
-    
-    #utime.sleep(0.1)
+  
+def hour():
+    global hour
+    return(hour)
+
+def new_hour():
+    global hour
+    last_hour = hour
+    while True:
+        if last_hour != hour:
+            global minute_timer
+            minute_timer = time.time()
+            last_hour = hour
+
+def minutes_of_new_hour():
+    global minute_timer
+    return (minute_timer)

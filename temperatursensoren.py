@@ -18,7 +18,7 @@ class TempSensor:
         temp = self.ds_sensor.read_temp(self.roms[rom-1])
         return(temp)
 
-    def show_temp(self):
+    def show(self):
         self.oled.fill(0)
         self.oled.text("Temperaturen: ", 0, 5)
         self.oled.text("Tank: " + str(round(self.get_temp(1),1))+" C", 0, 25)
