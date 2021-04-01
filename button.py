@@ -6,7 +6,7 @@ from machine import Pin
 
 class Button():
     def __init__(self, button_pin, counter_range):
-        self.counter = 0
+        self.counter = 0 #gibt den Zähler wieder
         self.pin = Pin(button_pin, Pin.IN, Pin.PULL_DOWN)
         self.range = counter_range
         self.pin.irq(trigger=Pin.IRQ_RISING, handler=self.update_counter)
@@ -16,3 +16,6 @@ class Button():
             self.counter += 1
         else:
             self.counter = 0
+
+    def value(self):
+        return (self.counter)
