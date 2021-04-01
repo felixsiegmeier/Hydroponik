@@ -106,7 +106,7 @@ def hour():
     global hour
     return(hour)
 
-def new_hour():
+def new_hour(): #entfällt! statt "neue Stunde" einfach "Minute < 5" für die Pumpe nehmen!
     global hour
     last_hour = hour
     while True:
@@ -114,7 +114,3 @@ def new_hour():
             global minute_timer
             minute_timer = time.time()
             last_hour = hour
-
-def minutes_of_new_hour():
-    global minute_timer
-    return (minute_timer)
