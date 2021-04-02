@@ -1,7 +1,7 @@
 from machine import Pin, ADC
 from time import sleep
 
-class EcSensor():
+class EcSensor:
     def __init__(self, power, data, resistor, analog_range, konst):
         self.ec_power = Pin(power, Pin.OUT) #Pin, der den Sensor aktiviert (also den MOSFET steuert)
         self.ec_power.value(0)

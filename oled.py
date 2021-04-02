@@ -1,7 +1,7 @@
 from ssd1306 import SSD1306_I2C
 from machine import Pin, I2C
 
-class Oled():
+class Oled:
     def __init__(self, sda_pin, scl_pin):
         self.oled = SSD1306_I2C(128, 64, I2C(scl=Pin(scl_pin), sda=Pin(sda_pin)))
     

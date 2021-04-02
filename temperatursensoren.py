@@ -23,13 +23,3 @@ class TempSensor:
             return True
         else:
             return False
-
-
-    '''
-    def show(self):
-        self.oled.fill(0)
-        self.oled.text("Temperaturen: ", 0, 5)
-        self.oled.text("Tank: " + str(round(self.get_temp(1),1))+" C", 0, 25)
-        self.oled.text("Rohr: " + str(round(self.get_temp(2),1))+" C", 0, 45)
-        self.oled.show()
-    '''
