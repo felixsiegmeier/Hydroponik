@@ -7,23 +7,48 @@ class Oled():
     
     def show_off(self, payload):
         #payload = None
-        pass
+        self.oled.poweroff()
 
     def show_temp(self, payload):
         #payload = list
-        pass
+        self.oled_on()
+        self.oled.fill(0)
+        self.oled.text("Temperaturen: ", 0, 5)
+        self.oled.text("Tank: " + str(round(payload[0], 1)) + " C", 0, 25)
+        self.oled.text("Rohr: " + str(round(payload[1], 1)) + " C", 0, 45)
+        self.oled.show()
 
     def show_ec(self, payload):
         #payload = int
-        pass
+        maximum = 6000 # muss ggf. noch angepasst werden
+        self.oled_on()
+        self.oled.fill(0)
+        self.oled.text("Aktueller EC-Wert: ", 0, 5)
+        self.oled.text(str(payload) + " µS/cm", 0, 25)
+        self.oled.text(str(round(100*payload/maximum)) + " %", 0, 45)
+        self.oled.show()
 
     def show_time(self, payload):
-        #payload = str(?)
-        pass
+        #payload = liste mit 2 str
+        self.oled_on()
+        self.oled.fill(0)
+        self.oled.text("Aktuelle Zeit: ", 0, 5)
+        self.oled.text(payload[0], 0, 25)
+        self.oled.text(payload[1], 0, 45)
+        self.oled.show()
     
     def show_light(self, payload):
         #payload = int = button.licht_modus_counter
-        pass
+        self.oled_on()
+        self.oled.fill(0)
+        self.oled.text("Lichtstunden: "+str(8+payload*2), 0, 5)
+        self.oled.text("Von "+str(5)+":00 Uhr", 0, 25)
+        self.oled.text("Bis "+str(13+2*payload)+":00 Uhr", 0, 45)
+        self.oled.show()
+
+    def oled_on(self):
+        if self.oled.poweroff():
+            self.oled.poweron()
 
     def oled_display(self, **kwargs):
         oled_modus_auswahl = [self.show_off, self.show_temp, self.show_ec, self.show_time, self.show_light]
