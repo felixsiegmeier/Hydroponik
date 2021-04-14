@@ -59,3 +59,27 @@ class Oled:
         oled_modus_counter = kwargs.get("OLED_MODUS_COUNTER")
         payload = kwargs.get("PAYLOAD", None)
         oled_modus_auswahl[oled_modus_counter](payload)
+
+    def oled_welcome(self):
+            self.oled.poweron()
+            self.oled.fill(0)
+            self.oled.text("Willkommen zu", 0, 5)
+            self.oled.text("Hydroponikanlage!", 0, 25)
+            self.oled.text("Gute Ernte!", 0, 45)
+            self.oled.show()
+    
+    def oled_systemtest(self):
+            self.oled.poweron()
+            self.oled.fill(0)
+            self.oled.text("30sec Systemtest", 0, 5)
+            self.oled.text("Pumpe: AN", 0, 25)
+            self.oled.text("Licht: AN", 0, 45)
+            self.oled.show() 
+
+    def oled_abgeschlossen(self):
+            self.oled.poweron()
+            self.oled.fill(0)
+            self.oled.text("Abgeschlossen ...", 0, 5)
+            self.oled.text("Schalte Display", 0, 25)
+            self.oled.text("aus ...", 0, 45)
+            self.oled.show()              
