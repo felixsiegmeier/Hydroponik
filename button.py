@@ -17,6 +17,7 @@ class Button():
             self.oled_modus_counter += 1
         else:
             self.oled_modus_counter = 0
+        print("oled_modus_counter:",self.oled_modus_counter)
 
     def licht_handler(self, arg):
         self.oled_modus_counter = self.oled_modus_licht
@@ -24,9 +25,12 @@ class Button():
             self.licht_modus_counter += 1
         else:
             self.licht_modus_counter = 0
+        print("licht_modus_counter:",self.licht_modus_counter)
 
     def get_oled_modus(self):
         return (self.oled_modus_counter)
 
     def get_licht_modus(self):
         return (self.licht_modus_counter)
+
+b = Button(17,33,4,8,3)

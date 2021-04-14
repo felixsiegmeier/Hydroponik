@@ -12,8 +12,13 @@ class TempSensor:
             count += 1
         self.ds_sensor.convert_temp()
     
-    def get_temp(self, rom):
-        temp = self.ds_sensor.read_temp(self.roms[rom-1])
+    def get_temp(self, *args):
+        if len(args) > 1:
+            temp = []
+            for arg in args:
+                temp.append(self.ds_sensor.read_temp(self.roms[arg-1]))
+        else:
+            temp = self.ds_sensor.read_temp(self.roms[args[0]-1])
         return(temp)
 
     def temp_delta(self, delta):
@@ -25,11 +30,6 @@ class TempSensor:
             return False
 
 
-    '''
-    def show(self):
-        self.oled.fill(0)
-        self.oled.text("Temperaturen: ", 0, 5)
-        self.oled.text("Tank: " + str(round(self.get_temp(1),1))+" C", 0, 25)
-        self.oled.text("Rohr: " + str(round(self.get_temp(2),1))+" C", 0, 45)
-        self.oled.show()
-    '''
+t = TempSensor(19)
+print(t.get_temp(2))
+print(t.get_temp(2,1))

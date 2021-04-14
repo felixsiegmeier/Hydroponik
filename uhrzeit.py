@@ -7,8 +7,8 @@ from ssd1306 import SSD1306_I2C
 
 
 # user data
-ssid = "XXXX" # wifi router name
-pw = "XXXX" # wifi router password
+ssid = "WLAN-589392" # wifi router name
+pw = "1223qwwe" # wifi router password
 url = "http://worldtimeapi.org/api/timezone/Europe/Berlin" # see http://worldtimeapi.org/timezones
 web_query_delay = 60000 # interval time of web JSON query
 retry_delay = 5000 # interval time of retry after a failed Web query
@@ -94,16 +94,10 @@ def uhrzeitloop(): # ermittelt die Uhrzeit, muss in die Endlosschleife
     date_str = "Date: {1:02d}/{2:02d}/{0:4d}".format(*rtc.datetime())
     time_str = "Time: {4:02d}:{5:02d}:{6:02d}".format(*rtc.datetime())
 
-def show(): # schreibt Datum und Uhrzeit aufs Oled, muss in die Endlosschleife bzw. immer, wenn uhrzeitloop eine neue Zeit ermittelt hat
-    # update SSD1306 OLED display
-    oled.fill(0)
-    oled.text("Aktuelle Uhrzeit: ", 0, 5)
-    oled.text(date_str, 0, 25)
-    oled.text(time_str, 0, 45)
-    oled.show()
+def get_time():
+    return ([date_str, time_str])
   
-def hour():
-    global hour
+def get_hour():
     return(hour)
 
 def new_hour(): #entfällt! statt "neue Stunde" einfach "Minute < 5" für die Pumpe nehmen!

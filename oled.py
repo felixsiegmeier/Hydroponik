@@ -6,23 +6,47 @@ class Oled():
         self.oled = SSD1306_I2C(128, 64, I2C(scl=Pin(scl_pin), sda=Pin(sda_pin)))
     
     def show_off(self, payload):
-        #payload = None
+        #payload = False
+        self.oled.poweroff()
         pass
 
     def show_temp(self, payload):
         #payload = list
-        pass
+        self.oled.poweron()
+        self.oled.fill(0)
+        self.oled.text("Temperaturen: ", 0, 5)
+        self.oled.text("Tank: " + str(round(payload[0], 1)) + " C", 0, 25)
+        self.oled.text("Rohr: " + str(round(payload[1], 1)) + " C", 0, 45)
+        self.oled.show()
 
     def show_ec(self, payload):
         #payload = int
-        pass
+        maximum = 6000 # muss ggf. noch angepasst werden
+        self.oled.poweron()
+        self.oled.fill(0)
+        self.oled.text("EC-Wert aktuell:", 0, 5)
+        self.oled.text(str(payload) + " yS/cm", 0, 25)
+        self.oled.text(str(round(100*payload/maximum)) + "% vom Maximum", 0, 45)
+        self.oled.show()
 
     def show_time(self, payload):
         #payload = str(?)
+        self.oled.poweron()
+        self.oled.fill(0)
+        self.oled.text("Aktuelle Zeit: ", 0, 5)
+        self.oled.text(payload[0], 0, 25)
+        self.oled.text(payload[1], 0, 45)
+        self.oled.show()
         pass
     
     def show_light(self, payload):
         #payload = int = button.licht_modus_counter
+        self.oled.poweron()
+        self.oled.fill(0)
+        self.oled.text("Lichtstunden: "+str(8+payload*2), 0, 5)
+        self.oled.text("Von "+str(5)+":00 Uhr", 0, 25)
+        self.oled.text("Bis "+str(13+2*payload)+":00 Uhr", 0, 45)
+        self.oled.show()
         pass
 
     def oled_display(self, **kwargs):
