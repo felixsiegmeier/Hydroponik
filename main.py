@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Work in progress... 
 from temperatursensoren import TempSensor
 import button
@@ -14,7 +15,6 @@ ec = EcSensor(26,34,2000,4095,0)
 uhrzeit.wificonnect()
 
 oled_payload = [False,temp.get_temp(tank,rohr),ec.get_ec(temp.get_temp(tank)),uhrzeit.get_time(),buttons.get_licht_modus()]
-
 
 
 while True:
