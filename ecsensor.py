@@ -14,13 +14,13 @@ class EcSensor:
             print("Führe get_konst(temp, ec_bekannt) mit einer bekannten Lösung aus, um diese zu bestimmen.")
         self.pin_resistance = 25 #Eingangswiderstand des Microkontrollers
         self.range = analog_range #4095 für ESP32, 1023 für ESP8266
+        self.voltage = 5
 
     def get_ec(self,temp):
         self.ec_power.value(1)
         raw = self.ec_data.read()
         raw = self.ec_data.read()
         self.ec_power.value(0)
-        sleep(1)
         v_drop = self.voltage*raw/self.range
         resistance = (v_drop * self.resistor) / (self.voltage - v_drop)
         resistance = resistance - self.pin_resistance

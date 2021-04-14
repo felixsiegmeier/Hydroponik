@@ -28,7 +28,3 @@ class TempSensor:
             return True
         else:
             return False
-
-t = TempSensor(19)
-print(t.get_temp(2))
-print(t.get_temp(2,1))

@@ -13,9 +13,9 @@ class Button():
         self.oled_modus_licht = oled_modus_licht
         self.oled_pin.irq(trigger=Pin.IRQ_RISING, handler=self.oled_handler)
         self.licht_pin.irq(trigger=Pin.IRQ_RISING, handler=self.licht_handler)
-        while True:
-            if time.time() - self.button_zuletzt_getrueckt > 180:
-                self.oled_modus_counter = 0
+#        while True:
+#            if time.time() - self.button_zuletzt_getrueckt > 180:
+#                self.oled_modus_counter = 0
     
     def oled_handler(self, arg):
         self.button_zuletzt_getrueckt = time.time()
@@ -39,5 +39,3 @@ class Button():
 
     def get_licht_modus(self):
         return (self.licht_modus_counter)
-
-b = Button(17,33,4,8,3)

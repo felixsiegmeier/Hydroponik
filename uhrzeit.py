@@ -44,6 +44,7 @@ def wificonnect(): # etabliert die wifi-Verbindung, muss einmalig ausgeführt we
 
 # main loop
 def uhrzeitloop(): # ermittelt die Uhrzeit, muss in die Endlosschleife
+    print("looping through time")
     
     # if lose wifi connection, reboot ESP8266
     if not wifi.isconnected():
@@ -95,16 +96,14 @@ def uhrzeitloop(): # ermittelt die Uhrzeit, muss in die Endlosschleife
     time_str = "Time: {4:02d}:{5:02d}:{6:02d}".format(*rtc.datetime())
 
 def get_time():
+    global date_str
+    global time_str
     return ([date_str, time_str])
   
 def get_hour():
+    global hour
     return(hour)
 
-def new_hour(): #entfällt! statt "neue Stunde" einfach "Minute < 5" für die Pumpe nehmen!
-    global hour
-    last_hour = hour
-    while True:
-        if last_hour != hour:
-            global minute_timer
-            minute_timer = time.time()
-            last_hour = hour
+def get_minute():
+    global minute
+    return(minute)
