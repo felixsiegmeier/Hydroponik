@@ -8,13 +8,13 @@ class Daten:
     def __init__(self):
         self.tempsensor = TempSensor(19)
         self.buttons = Button(17,33,4,5,4)
-        self.ec = EcSensor(26,34,2000,4095,5)
+        self.ec = EcSensor(34)
         self.prev_sekunde = time.time()
         self.prev_5_minuten = time.time()
 
         self.temp_tank = self.tempsensor.get_temp(0)
         self.temp_rohr = self.tempsensor.get_temp(1)
-        self.ec_value = self.ec.get_ec(self.temp_tank)
+        self.ec_value = self.ec.get_tds(self.temp_tank)
         self.uhrzeit = []
         self.hour = 0
         self.minute = 0
@@ -40,7 +40,7 @@ class Daten:
             try:
                 self.temp_tank = self.tempsensor.get_temp(0)
                 self.temp_rohr = self.tempsensor.get_temp(1)
-                self.ec_value = self.ec.get_ec(self.temp_tank)
+                self.ec_value = self.ec.get_tds(self.temp_tank)
             except: pass
         if self.update_sekundlich() == True:
             try:

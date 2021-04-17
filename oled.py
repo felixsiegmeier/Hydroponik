@@ -23,11 +23,11 @@ class Oled:
     def show_ec(self, payload):
         #payload = int
         try:
-            maximum = 6000 # muss ggf. noch angepasst werden
+            maximum = 1600 # muss ggf. noch angepasst werden
             self.oled.poweron()
             self.oled.fill(0)
-            self.oled.text("EC-Wert aktuell: ", 0, 5)
-            self.oled.text(str(payload) + " yS/cm", 0, 25)
+            self.oled.text("TDS-Wert aktuell: ", 0, 5)
+            self.oled.text(str(payload) + " ppm", 0, 25)
             self.oled.text(str(round(100*payload/maximum)) + " %", 0, 45)
             self.oled.show()
         except: pass
