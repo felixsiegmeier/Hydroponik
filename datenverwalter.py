@@ -3,6 +3,7 @@ from button import Button
 from ecsensor import EcSensor
 import uhrzeit
 import time
+from mqtt import MQTTClient
 
 class Daten:
     def __init__(self):
@@ -11,6 +12,8 @@ class Daten:
         self.ec = EcSensor(34)
         self.prev_sekunde = time.time()
         self.prev_5_minuten = time.time()
+        self.client = MQTTClient("Hydroponic", "192.168.178.200", port=1883)
+        self.client.settimeout = settimeout
 
         self.temp_tank = self.tempsensor.get_temp(0)
         self.temp_rohr = self.tempsensor.get_temp(1)
@@ -41,6 +44,9 @@ class Daten:
                 self.temp_tank = self.tempsensor.get_temp(0)
                 self.temp_rohr = self.tempsensor.get_temp(1)
                 self.ec_value = self.ec.get_tds(self.temp_tank)
+                self.client.connect()
+                self.client.publish("hydroponic",str(uhrzeit.get_time())+";"+str(self.temp_tank)+";"+str(self.temp_rohr)+";"+str(self.ec_value))
+                self.client.disconnect()
             except: pass
         if self.update_sekundlich() == True:
             try:
