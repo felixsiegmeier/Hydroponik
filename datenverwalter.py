@@ -13,6 +13,8 @@ class Daten:
         self.prev_sekunde = time.time()
         self.prev_5_minuten = time.time()
         self.client = MQTTClient("Hydroponic", "192.168.178.200", port=1883)
+        def settimeout(duration):
+            pass
         self.client.settimeout = settimeout
 
         self.temp_tank = self.tempsensor.get_temp(0)
