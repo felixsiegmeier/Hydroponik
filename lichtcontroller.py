@@ -9,7 +9,7 @@ class LichtController:
     def update_values(self, hour):
         self.hour = hour
 
-    def licht_steuern(self,licht_modus,hour):
+    def licht _steuern(self,licht_modus,hour):
         self.update_values(hour)
         min = 5
         max = 13+2*licht_modus
