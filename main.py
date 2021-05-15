@@ -38,3 +38,4 @@ while True:
     pumpe.pumpe_steuern(5,daten.get_value("minute"),[daten.get_value("temp_tank"),daten.get_value("temp_rohr")])
     licht.licht_steuern(daten.get_value("licht_modus"),daten.get_value("hour"))
     ec_led_steuern(daten.get_value("ec"), ec_minimum)
+    daten.client.check_msg()

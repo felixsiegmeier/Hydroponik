@@ -16,6 +16,10 @@ class Daten:
         def settimeout(duration):
             pass
         self.client.settimeout = settimeout
+        self.client.set_callback(self.mqtt_empfang)
+        self.client.connect()
+        self.client.subscribe(topic="hydroponic_setting")
+        
 
         self.temp_tank = self.tempsensor.get_temp(0)
         self.temp_rohr = self.tempsensor.get_temp(1)
@@ -24,8 +28,18 @@ class Daten:
         self.hour = 0
         self.minute = 0
         self.licht_modus = self.buttons.get_licht_modus()
+        self.lichtstunden = 8
         self.oled_modus = self.buttons.get_oled_modus()
     
+    def mqtt_empfang(self, topic, msg):
+        self.client.publish("hydroponic_testtopic","Erhaltene Nachricht: "+str(msg))
+        try:
+            self.lichtstunden = int(str(msg).strip("b'"))
+            self.client.publish("hydroponic_testtopic","Lichstunden wurden auf "+str(msg).strip("b'")+" h gesetzt")
+        except:
+            pass
+            
+
     def update_sekundlich(self):
         if time.time() - self.prev_sekunde > 0:
             self.prev_sekunde = time.time()
@@ -46,9 +60,7 @@ class Daten:
                 self.temp_tank = self.tempsensor.get_temp(0)
                 self.temp_rohr = self.tempsensor.get_temp(1)
                 self.ec_value = self.ec.get_tds(self.temp_tank)
-                self.client.connect()
                 self.client.publish("hydroponic",str(uhrzeit.get_time())+";"+str(self.temp_tank)+";"+str(self.temp_rohr)+";"+str(self.ec_value))
-                self.client.disconnect()
             except: pass
         if self.update_sekundlich() == True:
             try:
@@ -74,7 +86,8 @@ class Daten:
         if wert == "zeit":
             return self.uhrzeit
         if wert == "licht_modus":
-            return self.licht_modus
+            #return self.licht_modus
+            return self.lichtstunden-8
         if wert == "oled_modus":
             return self.oled_modus
     
